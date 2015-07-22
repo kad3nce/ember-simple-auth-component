@@ -6,7 +6,7 @@
     Ember = require('ember');
   }
 
-Ember.libraries.register('Ember Simple Auth', '0.8.0');
+Ember.libraries.register('Ember Simple Auth', '0.8.1');
 
 define("simple-auth/authenticators/base", 
   ["exports"],
@@ -1052,7 +1052,7 @@ define("simple-auth/session",
         return new Ember.RSVP.Promise(function(resolve, reject) {
           theAuthenticator.authenticate.apply(theAuthenticator, args).then(function(content) {
             _this.setup(authenticator, content, true);
-            resolve();
+            resolve(content);
           }, function(error) {
             _this.clear();
             _this.trigger('sessionAuthenticationFailed', error);
@@ -1109,7 +1109,7 @@ define("simple-auth/session",
             _this.container.lookup(authenticator).restore(restoredContent.secure).then(function(content) {
               _this.set('content', restoredContent);
               _this.setup(authenticator, content);
-              resolve();
+              resolve(content);
             }, function() {
               _this.clear();
               reject();
